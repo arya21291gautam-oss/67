@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A&R Cares - NDIS Support Services Western Sydney</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --green:#1D9E75;--green-light:#E1F5EE;--green-dark:#085041;
+    --blue:#185FA5;--blue-light:#E6F1FB;--blue-mid:#378ADD;
+    --teal:#0F6E56;--white:#fff;--gray:#f7f8fa;--text:#1a2233;--muted:#5a6478;
+    --radius:14px;--shadow:0 4px 24px rgba(30,50,80,0.10);
+  }
+  body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--text);background:#fff;overflow-x:hidden}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);border-bottom:1px solid #e8f5f0;padding:0 2rem}
+  .nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:68px}
+  .logo{font-family:'DM Serif Display',serif;font-size:1.6rem;color:var(--green-dark);letter-spacing:-0.5px;cursor:pointer}
+  .logo span{color:var(--green)}
+  .nav-links{display:flex;gap:2rem;list-style:none}
+  .nav-links a{text-decoration:none;color:var(--muted);font-size:0.93rem;font-weight:500;padding:6px 0;border-bottom:2px solid transparent;transition:all 0.2s;cursor:pointer}
+  .nav-links a.active,.nav-links a:hover{color:var(--green);border-bottom-color:var(--green)}
+  .nav-cta{background:var(--green);color:#fff;border:none;padding:10px 22px;border-radius:50px;font-size:0.9rem;font-weight:600;cursor:pointer;transition:background 0.2s;font-family:'Plus Jakarta Sans',sans-serif}
+  .nav-cta:hover{background:var(--teal)}
+
+  /* PAGES */
+  .page{display:none;animation:fadeIn 0.4s ease}
+  .page.active{display:block}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+  /* HERO */
+  .hero{background:linear-gradient(135deg,#0a2a1e 0%,#0d3d2a 50%,#0a2a1e 100%);min-height:92vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:4rem 2rem}
+  .hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231D9E75' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");opacity:1}
+  .hero-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;position:relative;z-index:1;width:100%}
+  .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(29,158,117,0.15);border:1px solid rgba(29,158,117,0.35);color:#5DCAA5;padding:8px 18px;border-radius:50px;font-size:0.82rem;font-weight:600;letter-spacing:0.5px;margin-bottom:1.5rem;text-transform:uppercase}
+  .shield-icon{width:14px;height:14px;fill:#5DCAA5}
+  .hero h1{font-family:'DM Serif Display',serif;font-size:3.2rem;line-height:1.1;color:#fff;margin-bottom:1.5rem}
+  .hero h1 span{color:#5DCAA5}
+  .hero p{color:rgba(255,255,255,0.75);font-size:1.05rem;line-height:1.8;margin-bottom:2rem}
+  .hero-btns{display:flex;gap:1rem;flex-wrap:wrap}
+  .btn-primary{background:var(--green);color:#fff;border:none;padding:14px 28px;border-radius:50px;font-size:0.95rem;font-weight:600;cursor:pointer;transition:all 0.2s;font-family:'Plus Jakarta Sans',sans-serif}
+  .btn-primary:hover{background:#0F6E56;transform:translateY(-1px)}
+  .btn-outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,0.3);padding:14px 28px;border-radius:50px;font-size:0.95rem;font-weight:600;cursor:pointer;transition:all 0.2s;font-family:'Plus Jakarta Sans',sans-serif}
+  .btn-outline:hover{border-color:#5DCAA5;color:#5DCAA5}
+  .hero-card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:2.5rem}
+  .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}
+  .stat{background:rgba(255,255,255,0.07);border-radius:12px;padding:1.2rem;text-align:center}
+  .stat-num{font-family:'DM Serif Display',serif;font-size:2rem;color:#5DCAA5}
+  .stat-label{font-size:0.78rem;color:rgba(255,255,255,0.55);margin-top:4px;text-transform:uppercase;letter-spacing:0.5px}
+  .hero-lang{display:flex;gap:8px;flex-wrap:wrap;margin-top:1.5rem}
+  .lang-tag{background:rgba(29,158,117,0.15);border:1px solid rgba(29,158,117,0.3);color:#9FE1CB;padding:5px 14px;border-radius:50px;font-size:0.8rem;font-weight:500}
+
+  /* TRUST BAR */
+  .trust-bar{background:var(--green-light);padding:1.2rem 2rem;border-bottom:1px solid #b8e8d5}
+  .trust-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:3rem;flex-wrap:wrap}
+  .trust-item{display:flex;align-items:center;gap:10px;font-size:0.88rem;font-weight:600;color:var(--green-dark)}
+  .trust-dot{width:8px;height:8px;background:var(--green);border-radius:50%;flex-shrink:0}
+
+  /* SECTIONS */
+  section{padding:5rem 2rem}
+  .container{max-width:1100px;margin:0 auto}
+  .section-label{text-transform:uppercase;letter-spacing:1.5px;font-size:0.75rem;font-weight:700;color:var(--green);margin-bottom:0.8rem}
+  .section-title{font-family:'DM Serif Display',serif;font-size:2.4rem;line-height:1.2;color:var(--text);margin-bottom:1rem}
+  .section-sub{color:var(--muted);font-size:1rem;line-height:1.8;max-width:600px}
+
+  /* SERVICES CARDS */
+  .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.2rem;margin-top:3rem}
+  .service-card{background:#fff;border:1.5px solid #e3f2ec;border-radius:var(--radius);padding:1.8rem;transition:all 0.25s;cursor:default}
+  .service-card:hover{border-color:var(--green);transform:translateY(-4px);box-shadow:var(--shadow)}
+  .service-icon{width:48px;height:48px;background:var(--green-light);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;font-size:1.4rem}
+  .service-card h3{font-size:1rem;font-weight:700;margin-bottom:0.5rem;color:var(--text)}
+  .service-card p{font-size:0.85rem;color:var(--muted);line-height:1.7}
+
+  /* TESTIMONIALS */
+  .testimonials{background:var(--gray)}
+  .testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:3rem}
+  .testi-card{background:#fff;border-radius:var(--radius);padding:2rem;border:1px solid #eee;position:relative}
+  .testi-card::before{content:'"';font-family:'DM Serif Display',serif;font-size:4rem;color:var(--green-light);position:absolute;top:1rem;left:1.5rem;line-height:1}
+  .testi-text{font-size:0.95rem;line-height:1.8;color:var(--text);margin-top:1.5rem;font-style:italic}
+  .testi-author{margin-top:1.2rem;display:flex;align-items:center;gap:10px}
+  .testi-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--blue-mid));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:0.85rem;flex-shrink:0}
+  .testi-name{font-weight:700;font-size:0.9rem;color:var(--text)}
+  .testi-role{font-size:0.78rem;color:var(--muted)}
+  .stars{color:#f5a623;font-size:0.9rem;margin-bottom:0.5rem}
+
+  /* CTA BANNER */
+  .cta-banner{background:linear-gradient(135deg,var(--green-dark),#0d3d2a);padding:4rem 2rem;text-align:center;color:#fff}
+  .cta-banner h2{font-family:'DM Serif Display',serif;font-size:2.4rem;margin-bottom:1rem}
+  .cta-banner p{opacity:0.8;margin-bottom:2rem;font-size:1rem}
+  .cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+  .btn-white{background:#fff;color:var(--green-dark);border:none;padding:14px 28px;border-radius:50px;font-size:0.95rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all 0.2s}
+  .btn-white:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,0.2)}
+  .btn-ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,0.4);padding:14px 28px;border-radius:50px;font-size:0.95rem;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all 0.2s}
+  .btn-ghost:hover{border-color:#fff}
+
+  /* ABOUT */
+  .about-story{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;margin-top:3rem}
+  .story-visual{background:linear-gradient(135deg,#e1f5ee,#b5d4f4);border-radius:24px;padding:3rem;text-align:center;position:relative;overflow:hidden}
+  .story-visual::before{content:'';position:absolute;top:-40px;right:-40px;width:150px;height:150px;background:rgba(29,158,117,0.12);border-radius:50%}
+  .nurse-icon{font-size:4rem;display:block;margin-bottom:1rem}
+  .story-stat{display:inline-block;background:#fff;border-radius:12px;padding:1rem 1.5rem;margin:0.5rem;box-shadow:0 4px 16px rgba(0,0,0,0.08)}
+  .story-stat-num{font-family:'DM Serif Display',serif;font-size:1.8rem;color:var(--green)}
+  .story-stat-label{font-size:0.78rem;color:var(--muted);display:block}
+  .story-text h2{font-family:'DM Serif Display',serif;font-size:2.2rem;margin-bottom:1.2rem}
+  .story-text p{color:var(--muted);line-height:1.9;margin-bottom:1.2rem;font-size:0.97rem}
+  .value-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:1.5rem}
+  .value-tag{background:var(--green-light);color:var(--green-dark);padding:6px 16px;border-radius:50px;font-size:0.82rem;font-weight:600}
+
+  /* SERVICES PAGE */
+  .services-full{padding:5rem 2rem}
+  .service-full-card{background:#fff;border:1.5px solid #e3f2ec;border-radius:20px;padding:2.5rem;margin-bottom:1.5rem;display:grid;grid-template-columns:80px 1fr;gap:2rem;align-items:start;transition:all 0.2s}
+  .service-full-card:hover{border-color:var(--green);box-shadow:var(--shadow)}
+  .sfc-icon{width:64px;height:64px;background:var(--green-light);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0}
+  .sfc-content h3{font-family:'DM Serif Display',serif;font-size:1.4rem;margin-bottom:0.6rem;color:var(--text)}
+  .sfc-content p{color:var(--muted);line-height:1.8;font-size:0.95rem}
+  .sfc-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:1rem}
+  .sfc-tag{background:var(--blue-light);color:var(--blue);padding:4px 12px;border-radius:50px;font-size:0.78rem;font-weight:600}
+
+  /* CONTACT */
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;margin-top:3rem}
+  .contact-info h3{font-family:'DM Serif Display',serif;font-size:1.8rem;margin-bottom:1.5rem}
+  .contact-item{display:flex;align-items:flex-start;gap:14px;margin-bottom:1.5rem}
+  .contact-icon{width:44px;height:44px;background:var(--green-light);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+  .contact-item h4{font-weight:700;font-size:0.9rem;margin-bottom:4px;color:var(--text)}
+  .contact-item p{font-size:0.88rem;color:var(--muted);line-height:1.6}
+  .contact-form{background:var(--gray);border-radius:20px;padding:2.5rem}
+  .contact-form h3{font-family:'DM Serif Display',serif;font-size:1.5rem;margin-bottom:1.5rem}
+  .form-group{margin-bottom:1.2rem}
+  .form-group label{display:block;font-size:0.85rem;font-weight:600;margin-bottom:6px;color:var(--text)}
+  .form-group input,.form-group textarea,.form-group select{width:100%;padding:12px 16px;border:1.5px solid #d8eae2;border-radius:10px;font-size:0.9rem;font-family:'Plus Jakarta Sans',sans-serif;color:var(--text);background:#fff;outline:none;transition:border 0.2s}
+  .form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--green)}
+  .form-group textarea{resize:vertical;min-height:100px}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  .submit-btn{width:100%;background:var(--green);color:#fff;border:none;padding:14px;border-radius:50px;font-size:1rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;margin-top:0.5rem;transition:background 0.2s}
+  .submit-btn:hover{background:var(--teal)}
+  .form-success{display:none;background:#e1f5ee;border:1.5px solid var(--green);border-radius:12px;padding:1.5rem;text-align:center;color:var(--green-dark);font-weight:600;margin-top:1rem}
+
+  /* AREAS */
+  .areas-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0.8rem;margin-top:2rem}
+  .area-tag{background:var(--green-light);color:var(--green-dark);padding:10px 16px;border-radius:10px;font-size:0.88rem;font-weight:600;text-align:center}
+
+  /* FOOTER */
+  footer{background:#0a2a1e;color:rgba(255,255,255,0.65);padding:3rem 2rem;text-align:center}
+  footer .logo{color:#5DCAA5;display:block;margin-bottom:0.5rem;font-size:1.4rem;font-family:'DM Serif Display',serif}
+  footer p{font-size:0.85rem;margin-top:0.5rem}
+
+  /* ACCEPTING BANNER */
+  .accepting{background:linear-gradient(90deg,var(--blue-light),var(--green-light));border:1.5px solid #9FE1CB;border-radius:14px;padding:1.2rem 2rem;display:flex;align-items:center;gap:1rem;margin-bottom:2rem;flex-wrap:wrap}
+  .accepting-dot{width:10px;height:10px;background:var(--green);border-radius:50%;flex-shrink:0;animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(29,158,117,0.4)}50%{box-shadow:0 0 0 8px rgba(29,158,117,0)}}
+  .accepting strong{color:var(--green-dark);font-size:0.95rem}
+  .accepting span{color:var(--muted);font-size:0.85rem}
+
+  /* RESPONSIVE */
+  @media(max-width:768px){
+    .hero-inner{grid-template-columns:1fr;gap:2rem}
+    .hero h1{font-size:2.2rem}
+    .hero-card{display:none}
+    .about-story{grid-template-columns:1fr}
+    .contact-grid{grid-template-columns:1fr}
+    .trust-inner{gap:1.2rem}
+    .form-row{grid-template-columns:1fr}
+    .nav-links{gap:1rem}
+    .service-full-card{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo" onclick="showPage('home')">A<span>&</span>R Cares</div>
+    <ul class="nav-links">
+      <li><a onclick="showPage('home')" class="active" id="nav-home">Home</a></li>
+      <li><a onclick="showPage('services')" id="nav-services">Services</a></li>
+      <li><a onclick="showPage('about')" id="nav-about">About Us</a></li>
+      <li><a onclick="showPage('contact')" id="nav-contact">Contact</a></li>
+    </ul>
+    <button class="nav-cta" onclick="showPage('contact')">Get in Touch</button>
+  </div>
+</nav>
+
+<!-- ======================== HOME PAGE ======================== -->
+<div class="page active" id="page-home">
+
+  <div class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-badge">
+          <svg class="shield-icon" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+          NDIS Registered Provider &middot; Western Sydney
+        </div>
+        <h1>NDIS Support Services <span>You Can Trust</span></h1>
+        <p>A&amp;R Cares is a Nepali-owned, family-run NDIS support provider founded by two registered nurses. Personalised, compassionate care &mdash; right here in Western Sydney.</p>
+        <div class="hero-btns">
+          <button class="btn-primary" onclick="showPage('contact')">Now Accepting New Participants</button>
+          <button class="btn-outline" onclick="showPage('services')">Our Services</button>
+        </div>
+        <div class="hero-lang">
+          <span class="lang-tag">&#127462;&#127482; English</span>
+          <span class="lang-tag">&#127475;&#127477; Nepali</span>
+          <span class="lang-tag">&#127470;&#127475; Hindi</span>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div style="color:rgba(255,255,255,0.55);font-size:0.78rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:1rem">Why Families Choose Us</div>
+        <div class="stat-grid">
+          <div class="stat"><div class="stat-num">2</div><div class="stat-label">Registered Nurses</div></div>
+          <div class="stat"><div class="stat-num">5+</div><div class="stat-label">Years Experience</div></div>
+          <div class="stat"><div class="stat-num">3</div><div class="stat-label">Languages Spoken</div></div>
+          <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Family-Run</div></div>
+        </div>
+        <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.1)">
+          <div style="color:rgba(255,255,255,0.55);font-size:0.78rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:0.8rem">Service Areas</div>
+          <div style="color:rgba(255,255,255,0.8);font-size:0.9rem;line-height:1.8">Penrith &middot; Kingswood &middot; Werrington<br>&amp; surrounding Western Sydney suburbs</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="trust-bar">
+    <div class="trust-inner">
+      <div class="trust-item"><div class="trust-dot"></div>NDIS Registered Provider</div>
+      <div class="trust-item"><div class="trust-dot"></div>Family-Owned &amp; Operated</div>
+      <div class="trust-item"><div class="trust-dot"></div>Run by Registered Nurses</div>
+      <div class="trust-item"><div class="trust-dot"></div>Multilingual Support</div>
+      <div class="trust-item"><div class="trust-dot"></div>Western Sydney Based</div>
+    </div>
+  </div>
+
+  <section style="background:#fff">
+    <div class="container">
+      <div class="accepting">
+        <div class="accepting-dot"></div>
+        <div>
+          <strong>Now Accepting New Participants</strong><br>
+          <span>We have availability across all our services. Contact us today to get started.</span>
+        </div>
+        <button class="btn-primary" style="margin-left:auto;white-space:nowrap;flex-shrink:0" onclick="showPage('contact')">Contact Us &rarr;</button>
+      </div>
+      <div class="section-label">What We Offer</div>
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+        <h2 class="section-title" style="margin-bottom:0">Our Core Services</h2>
+        <a onclick="showPage('services')" style="color:var(--green);font-weight:600;cursor:pointer;font-size:0.9rem">View all services &rarr;</a>
+      </div>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">🧼</div>
+          <h3>Personal Care</h3>
+          <p>Dignified, respectful support with bathing, grooming, dressing and daily hygiene routines.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🏠</div>
+          <h3>Daily Living Support</h3>
+          <p>Helping you manage household tasks, meal preparation, and building independence at home.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🚗</div>
+          <h3>Transport</h3>
+          <p>Safe, reliable transport to appointments, errands, and community activities.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🤝</div>
+          <h3>Community Participation</h3>
+          <p>Support to connect with your community, pursue hobbies and social activities you love.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">💚</div>
+          <h3>Companionship</h3>
+          <p>Warm, genuine company and emotional support to reduce isolation and boost wellbeing.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonials">
+    <div class="container">
+      <div class="section-label">What Families Say</div>
+      <h2 class="section-title">Trusted by Participants &amp; Families</h2>
+      <div class="testi-grid">
+        <div class="testi-card">
+          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="testi-text">A&amp;R Cares has been a blessing for our family. They treat my mother with such warmth and respect. The nurses really understand her needs.</p>
+          <div class="testi-author">
+            <div class="testi-avatar">SP</div>
+            <div><div class="testi-name">Sita P.</div><div class="testi-role">Family Member, Penrith</div></div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="testi-text">Being able to communicate in Nepali made all the difference. My son feels comfortable and safe with his carers. Highly recommend!</p>
+          <div class="testi-author">
+            <div class="testi-avatar">RB</div>
+            <div><div class="testi-name">Ram B.</div><div class="testi-role">Parent, Kingswood</div></div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="testi-text">I refer clients to A&amp;R Cares regularly. Their professionalism and genuine care sets them apart. A reliable, trustworthy provider.</p>
+          <div class="testi-author">
+            <div class="testi-avatar">MK</div>
+            <div><div class="testi-name">Maya K.</div><div class="testi-role">Support Coordinator, Western Sydney</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-banner">
+    <div class="container">
+      <h2>Ready to Get Started?</h2>
+      <p>We&rsquo;d love to hear from you. Reach out and we&rsquo;ll find the right support for your needs.</p>
+      <div class="cta-btns">
+        <button class="btn-white" onclick="showPage('contact')">Contact Us Today</button>
+        <button class="btn-ghost" onclick="showPage('about')">Learn Our Story</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="logo">A&amp;R Cares</div>
+    <p>NDIS Registered Provider &middot; Western Sydney &middot; ABN: Available on request</p>
+    <p style="margin-top:8px">&copy; 2025 A&amp;R Cares. All rights reserved.</p>
+  </footer>
+</div>
+
+<!-- ======================== SERVICES PAGE ======================== -->
+<div class="page" id="page-services">
+  <section style="background:linear-gradient(135deg,#0a2a1e,#0d3d2a);padding:5rem 2rem;color:#fff">
+    <div class="container">
+      <div class="hero-badge" style="margin-bottom:1rem">Our Services</div>
+      <h1 style="font-family:'DM Serif Display',serif;font-size:3rem;margin-bottom:1rem">Comprehensive <span style="color:#5DCAA5">NDIS Support</span></h1>
+      <p style="color:rgba(255,255,255,0.7);font-size:1.05rem;max-width:600px">Every service is delivered with compassion, respect, and a commitment to helping you live the life you choose.</p>
+    </div>
+  </section>
+
+  <section class="services-full">
+    <div class="container">
+      <div class="accepting">
+        <div class="accepting-dot"></div>
+        <div><strong>Now Accepting New Participants</strong><br><span>Availability across all services. Get in touch today.</span></div>
+        <button class="btn-primary" style="margin-left:auto;flex-shrink:0" onclick="showPage('contact')">Contact Us &rarr;</button>
+      </div>
+
+      <div class="service-full-card">
+        <div class="sfc-icon">🧼</div>
+        <div class="sfc-content">
+          <h3>Personal Care</h3>
+          <p>We provide dignified, respectful personal care tailored to your individual needs and preferences. Our registered nurses bring clinical expertise to every interaction, ensuring your safety and comfort. From morning routines to evening wind-downs, we work around your schedule and always respect your choices and privacy.</p>
+          <div class="sfc-tags">
+            <span class="sfc-tag">Bathing &amp; Grooming</span>
+            <span class="sfc-tag">Dressing</span>
+            <span class="sfc-tag">Hygiene Support</span>
+            <span class="sfc-tag">Continence Care</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="service-full-card">
+        <div class="sfc-icon">🏠</div>
+        <div class="sfc-content">
+          <h3>Daily Living Support</h3>
+          <p>Building independence at home is at the heart of what we do. We assist with household tasks, meal preparation, and daily routines in a way that empowers you &mdash; not replaces you. We work at your pace, encouraging your involvement and celebrating your progress every step of the way.</p>
+          <div class="sfc-tags">
+            <span class="sfc-tag">Meal Preparation</span>
+            <span class="sfc-tag">Household Tasks</span>
+            <span class="sfc-tag">Medication Prompts</span>
+            <span class="sfc-tag">Skill Building</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="service-full-card">
+        <div class="sfc-icon">🚗</div>
+        <div class="sfc-content">
+          <h3>Transport</h3>
+          <p>Getting where you need to go, safely and on time. We provide reliable transport support for medical appointments, therapy sessions, shopping, social events, and everyday errands. Our carers ensure you arrive feeling calm and cared for &mdash; never rushed.</p>
+          <div class="sfc-tags">
+            <span class="sfc-tag">Medical Appointments</span>
+            <span class="sfc-tag">Shopping Trips</span>
+            <span class="sfc-tag">Social Outings</span>
+            <span class="sfc-tag">Community Access</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="service-full-card">
+        <div class="sfc-icon">🤝</div>
+        <div class="sfc-content">
+          <h3>Community Participation</h3>
+          <p>Everyone deserves to be part of their community. We support you to connect with local activities, social groups, cultural events, and recreational opportunities that matter to you. Our multilingual team means we can support participants from diverse cultural backgrounds with genuine understanding.</p>
+          <div class="sfc-tags">
+            <span class="sfc-tag">Social Activities</span>
+            <span class="sfc-tag">Cultural Events</span>
+            <span class="sfc-tag">Hobby Support</span>
+            <span class="sfc-tag">Group Programs</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="service-full-card">
+        <div class="sfc-icon">💚</div>
+        <div class="sfc-content">
+          <h3>Companionship</h3>
+          <p>Sometimes the most meaningful support is simply being there. Our carers provide warm, genuine companionship &mdash; someone to talk to, share a meal with, or enjoy an activity alongside. We genuinely care about your wellbeing, not just your daily tasks.</p>
+          <div class="sfc-tags">
+            <span class="sfc-tag">Conversation &amp; Company</span>
+            <span class="sfc-tag">Emotional Support</span>
+            <span class="sfc-tag">Activities Together</span>
+            <span class="sfc-tag">Reducing Isolation</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-banner">
+    <div class="container">
+      <h2>Unsure Which Services You Need?</h2>
+      <p>We&rsquo;ll have a friendly chat and help you figure out the best support plan for you or your loved one.</p>
+      <div class="cta-btns">
+        <button class="btn-white" onclick="showPage('contact')">Talk to Us Today</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="logo">A&amp;R Cares</div>
+    <p>NDIS Registered Provider &middot; Western Sydney</p>
+    <p style="margin-top:8px">&copy; 2025 A&amp;R Cares. All rights reserved.</p>
+  </footer>
+</div>
+
+<!-- ======================== ABOUT PAGE ======================== -->
+<div class="page" id="page-about">
+  <section style="background:linear-gradient(135deg,#0a2a1e,#0d3d2a);padding:5rem 2rem;color:#fff">
+    <div class="container">
+      <div class="hero-badge" style="margin-bottom:1rem">About Us</div>
+      <h1 style="font-family:'DM Serif Display',serif;font-size:3rem;margin-bottom:1rem">Our <span style="color:#5DCAA5">Story</span></h1>
+      <p style="color:rgba(255,255,255,0.7);max-width:600px;font-size:1.05rem">A family-run business, built on decades of healthcare experience and a deep passion for compassionate care.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="about-story">
+        <div class="story-visual">
+          <span class="nurse-icon">👩‍⚕️👨‍⚕️</span>
+          <p style="font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--green-dark);margin-bottom:1.5rem;font-style:italic">"We started A&amp;R Cares because we believe everyone deserves care that truly sees them as a person."</p>
+          <div>
+            <div class="story-stat"><div class="story-stat-num">2</div><span class="story-stat-label">Registered Nurses</span></div>
+            <div class="story-stat"><div class="story-stat-num">5+</div><span class="story-stat-label">Years in Healthcare</span></div>
+          </div>
+        </div>
+        <div class="story-text">
+          <div class="section-label">Who We Are</div>
+          <h2>A Family Built on Care</h2>
+          <p>A&amp;R Cares was founded by two registered nurses who saw, firsthand, the difference that truly personalised care can make in someone&rsquo;s life. After years working in hospitals and healthcare settings across Australia, we decided to bring that clinical knowledge &mdash; and our personal values &mdash; into the community.</p>
+          <p>As a Nepali-owned, family-run business, we understand what it means to care for people you love. We bring that same warmth and dedication to every participant we support. For us, this isn&rsquo;t just a job &mdash; it&rsquo;s a calling.</p>
+          <p>We speak English, Nepali, and Hindi, which means we can communicate meaningfully with participants and families from diverse backgrounds. We understand cultural values around care, family, and respect &mdash; and we honour them in everything we do.</p>
+          <div class="value-tags">
+            <span class="value-tag">Trust</span>
+            <span class="value-tag">Respect</span>
+            <span class="value-tag">Compassion</span>
+            <span class="value-tag">Professionalism</span>
+            <span class="value-tag">Cultural Sensitivity</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:var(--gray)">
+    <div class="container">
+      <div class="section-label">Our Values</div>
+      <h2 class="section-title">What Drives Everything We Do</h2>
+      <div class="services-grid" style="margin-top:2rem">
+        <div class="service-card">
+          <div class="service-icon">❤️</div>
+          <h3>Person-Centred</h3>
+          <p>Every support plan is built around you &mdash; your goals, your preferences, your life. We never take a one-size-fits-all approach.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🔒</div>
+          <h3>Safety First</h3>
+          <p>As registered nurses, we bring clinical training to every interaction. Your safety and wellbeing is always our top priority.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🌏</div>
+          <h3>Culturally Aware</h3>
+          <p>We celebrate diversity. Our multilingual team ensures every participant feels understood, respected, and at home.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🏡</div>
+          <h3>Community Rooted</h3>
+          <p>We live and work in Western Sydney. We know this community and are proud to serve the people who call it home.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container" style="text-align:center">
+      <div class="section-label">Our Team</div>
+      <h2 class="section-title" style="margin:0 auto 1rem">Meet the Founders</h2>
+      <p class="section-sub" style="margin:0 auto 3rem">Two registered nurses. One shared mission &mdash; to provide the kind of care we&rsquo;d want for our own families.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;max-width:700px;margin:0 auto">
+        <div class="testi-card" style="text-align:center;padding:2.5rem 2rem">
+          <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--green),#5DCAA5);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:2rem">👩‍⚕️</div>
+          <h3 style="font-family:'DM Serif Display',serif;font-size:1.3rem;margin-bottom:0.3rem">Co-Founder &amp; Director</h3>
+          <p style="color:var(--green);font-size:0.85rem;font-weight:600;margin-bottom:0.8rem">Registered Nurse (RN)</p>
+          <p style="color:var(--muted);font-size:0.88rem;line-height:1.7">Years of nursing experience across hospital and community settings. Passionate about empowering people through great care.</p>
+        </div>
+        <div class="testi-card" style="text-align:center;padding:2.5rem 2rem">
+          <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--blue-mid),#185FA5);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:2rem">👨‍⚕️</div>
+          <h3 style="font-family:'DM Serif Display',serif;font-size:1.3rem;margin-bottom:0.3rem">Co-Founder &amp; Director</h3>
+          <p style="color:var(--green);font-size:0.85rem;font-weight:600;margin-bottom:0.8rem">Registered Nurse (RN)</p>
+          <p style="color:var(--muted);font-size:0.88rem;line-height:1.7">Specialist experience in disability and aged care. Believes deeply in treating every participant with dignity and respect.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-banner">
+    <div class="container">
+      <h2>We&rsquo;d Love to Meet You</h2>
+      <p>Have a chat with our team and see if A&amp;R Cares is the right fit for you or your loved one.</p>
+      <div class="cta-btns">
+        <button class="btn-white" onclick="showPage('contact')">Get in Touch Today</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="logo">A&amp;R Cares</div>
+    <p>NDIS Registered Provider &middot; Western Sydney</p>
+    <p style="margin-top:8px">&copy; 2025 A&amp;R Cares. All rights reserved.</p>
+  </footer>
+</div>
+
+<!-- ======================== CONTACT PAGE ======================== -->
+<div class="page" id="page-contact">
+  <section style="background:linear-gradient(135deg,#0a2a1e,#0d3d2a);padding:5rem 2rem;color:#fff">
+    <div class="container">
+      <div class="hero-badge" style="margin-bottom:1rem">Contact Us</div>
+      <h1 style="font-family:'DM Serif Display',serif;font-size:3rem;margin-bottom:1rem">Let&rsquo;s <span style="color:#5DCAA5">Talk</span></h1>
+      <p style="color:rgba(255,255,255,0.7);font-size:1.05rem;max-width:600px">We&rsquo;d love to hear from you. Whether you&rsquo;re an NDIS participant, a family member, or a support coordinator &mdash; reach out and we&rsquo;ll get back to you promptly.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="accepting">
+        <div class="accepting-dot"></div>
+        <div>
+          <strong>Now Accepting New Participants</strong><br>
+          <span>Reach out today &mdash; we have availability and are ready to help.</span>
+        </div>
+      </div>
+
+      <div class="contact-grid">
+        <div class="contact-info">
+          <h3>Get in Touch</h3>
+          <div class="contact-item">
+            <div class="contact-icon">📞</div>
+            <div>
+              <h4>Phone</h4>
+              <p>Call us for a friendly, no-obligation chat.<br><strong style="color:var(--green)">[Your phone number here]</strong></p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">✉️</div>
+            <div>
+              <h4>Email</h4>
+              <p>We aim to respond within 24 hours.<br><strong style="color:var(--green)">[Your email here]</strong></p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div>
+              <h4>Service Area</h4>
+              <p>We proudly serve Western Sydney including:</p>
+              <div class="areas-grid" style="margin-top:0.8rem">
+                <div class="area-tag">Penrith</div>
+                <div class="area-tag">Kingswood</div>
+                <div class="area-tag">Werrington</div>
+                <div class="area-tag">St Marys</div>
+                <div class="area-tag">Blacktown</div>
+                <div class="area-tag">And more</div>
+              </div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">🗣️</div>
+            <div>
+              <h4>Languages</h4>
+              <p>We speak <strong>English</strong>, <strong>Nepali</strong>, and <strong>Hindi</strong>. No language barrier &mdash; just great care.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-form">
+          <h3>Send Us a Message</h3>
+          <div id="contact-form-content">
+            <div class="form-row">
+              <div class="form-group">
+                <label>First Name</label>
+                <input type="text" placeholder="Your first name" id="fname">
+              </div>
+              <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" placeholder="Your last name" id="lname">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Phone Number</label>
+              <input type="tel" placeholder="04XX XXX XXX" id="phone">
+            </div>
+            <div class="form-group">
+              <label>Email Address</label>
+              <input type="email" placeholder="you@email.com" id="email">
+            </div>
+            <div class="form-group">
+              <label>I am a...</label>
+              <select id="role">
+                <option value="">Select one</option>
+                <option>NDIS Participant</option>
+                <option>Family Member / Carer</option>
+                <option>Support Coordinator</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>How can we help?</label>
+              <textarea placeholder="Tell us a little about what support you're looking for..." id="message"></textarea>
+            </div>
+            <button class="submit-btn" onclick="submitForm()">Send Message &rarr;</button>
+          </div>
+          <div class="form-success" id="form-success">
+            ✅ Thank you! We&rsquo;ve received your message and will be in touch within 24 hours.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="logo">A&amp;R Cares</div>
+    <p>NDIS Registered Provider &middot; Western Sydney &middot; ABN: Available on request</p>
+    <p style="margin-top:8px">&copy; 2025 A&amp;R Cares. All rights reserved.</p>
+  </footer>
+</div>
+
+<script>
+  function showPage(name) {
+    document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+    document.querySelectorAll('.nav-links a').forEach(function(a) { a.classList.remove('active'); });
+    document.getElementById('page-' + name).classList.add('active');
+    document.getElementById('nav-' + name).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function submitForm() {
+    var fname = document.getElementById('fname').value;
+    var email = document.getElementById('email').value;
+    if (!fname || !email) {
+      alert('Please fill in at least your name and email to send a message.');
+      return;
+    }
+    document.getElementById('contact-form-content').style.display = 'none';
+    document.getElementById('form-success').style.display = 'block';
+  }
+</script>
+</body>
+</html>
